@@ -31,7 +31,7 @@ export default function Home() {
           </div>
         </div>
 
-        <Card className="overflow-hidden">
+        <Card className="overflow-hidden accent-glow">
           <CardHeader className="flex items-center justify-between">
             <div>
               <div className="text-sm font-medium text-white/90">SecondOrder Signals</div>

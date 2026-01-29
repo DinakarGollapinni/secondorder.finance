@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body {
+  background-color: #0a0c10; /* fallback if gradients/vars fail */
+}
+
+
 :root{
   --bg0: 10 12 16;
   --bg1: 14 17 24;
@@ -16,16 +21,22 @@
 html, body { height: 100%; }
 body {
   color: rgb(var(--text));
+  background-color: rgb(var(--bg0)); /* fallback */
   background: radial-gradient(1200px 800px at 20% 20%, rgba(var(--accent2),0.12), transparent 55%),
               radial-gradient(900px 700px at 70% 25%, rgba(var(--accent),0.10), transparent 55%),
               linear-gradient(180deg, rgb(var(--bg1)), rgb(var(--bg0)) 60%);
 }
 
+
 .glass {
-  background: rgba(var(--card), 0.55);
-  border: 1px solid rgba(var(--border), 0.65);
+  background: rgba(var(--card), 0.60);
+  border: 1px solid rgba(var(--border), 0.70);
   backdrop-filter: blur(14px);
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.35),
+    0 0 0 1px rgba(255,255,255,0.03) inset;
 }
+
 
 .hairline { border-color: rgba(var(--border), 0.65); }
 .text-muted { color: rgba(var(--muted), 0.95); }
@@ -52,3 +63,12 @@ body {
   font-size: 12px;
   color: rgba(var(--text), 0.9);
 }
+
+.accent-glow {
+  box-shadow:
+    0 12px 38px rgba(0,0,0,0.45),
+    0 0 0 1px rgba(255,255,255,0.04) inset,
+    0 0 40px rgba(var(--accent2), 0.10),
+    0 0 70px rgba(var(--accent), 0.08);
+}
+
