@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { AssetAccent } from "@/components/asset/AssetAccent";
+
 
 function MiniChart() {
   return (
@@ -69,14 +71,20 @@ export default function Home() {
 
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {[
-          { title: "Gold", href: "/playbook/gold", desc: "Hedge, liquidity, regime shifts." },
-          { title: "Crypto", href: "/playbook/crypto", desc: "Volatility, sizing, cycles." },
-          { title: "Equity", href: "/playbook/equity", desc: "Core growth engine, breadth." },
-          { title: "REITs", href: "/playbook/reits", desc: "Rates sensitivity, income." },
+          { title: "Equity", href: "/asset-classes/equity", desc: "Core growth engine, breadth.", accent: "hsl(210 90% 60%)", },
+          { title: "Gold", href: "/asset-classes/gold", desc: "Hedge, liquidity, regime shifts.", accent: "hsl(43 95% 58%)", },
+          { title: "Crypto", href: "/asset-classes/crypto", desc: "Volatility, sizing, cycles.", accent: "hsl(190 95% 55%)", },
+          { title: "REITs", href: "/asset-classes/reits", desc: "Rates sensitivity, income.", accent: "hsl(270 85% 65%)", },
         ].map((c) => (
-          <Link key={c.title} href={c.href} className="block">
-            <Card className="h-full transition hover:translate-y-[-1px] hover:bg-white/5">
-              <CardContent className="pt-5">
+          <Link key={c.title} href={c.href} className="block group">
+            <Card className="relative h-full overflow-hidden transition hover:translate-y-[-1px] hover:bg-white/5">
+              {/* Accent overlay */}
+              <div className="pointer-events-none absolute inset-0">
+                <AssetAccent color={c.accent} />
+              </div>
+
+              {/* Content */}
+              <CardContent className="relative pt-5">
                 <div className="text-base font-semibold">{c.title}</div>
                 <div className="mt-1 text-sm text-muted">{c.desc}</div>
               </CardContent>
