@@ -69,10 +69,10 @@ export default function Home() {
 
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {[
-          { title: "Gold", href: "/playbook/asset-classes/gold", desc: "Hedge, liquidity, regime shifts." },
-          { title: "Crypto", href: "/playbook/asset-classes/crypto", desc: "Volatility, sizing, cycles." },
-          { title: "Equity", href: "/playbook/asset-classes/equity", desc: "Core growth engine, breadth." },
-          { title: "REITs", href: "/playbook/asset-classes/reits", desc: "Rates sensitivity, income." },
+          { title: "Gold", href: "/playbook/gold", desc: "Hedge, liquidity, regime shifts." },
+          { title: "Crypto", href: "/playbook/crypto", desc: "Volatility, sizing, cycles." },
+          { title: "Equity", href: "/playbook/equity", desc: "Core growth engine, breadth." },
+          { title: "REITs", href: "/playbook/reits", desc: "Rates sensitivity, income." },
         ].map((c) => (
           <Link key={c.title} href={c.href} className="block">
             <Card className="h-full transition hover:translate-y-[-1px] hover:bg-white/5">

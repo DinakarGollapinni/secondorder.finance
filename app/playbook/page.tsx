@@ -1,34 +1,32 @@
 import Link from "next/link";
-import { PlaybookShell } from "@/components/playbook-shell";
+import { playbookIndex } from "@/content/playbook/index";
 import { Card, CardContent } from "@/components/ui/card";
 
-export default function PlaybookIndex() {
+export default function PlaybookIndexPage() {
   return (
-    <PlaybookShell title="Playbook Overview">
-      <div className="grid gap-4 sm:grid-cols-2">
-        {[
-          { title: "Asset Classes", desc: "Gold, crypto, equity, REITs — role, risks, sizing.", href: "/playbook/asset-classes/gold" },
-          { title: "Strategy", desc: "Signals, ladders, DCA systems, risk dashboard.", href: "/playbook/strategy/risk-dashboard" },
-        ].map((c) => (
-          <Link key={c.title} href={c.href}>
-            <Card className="hover:bg-white/5 transition">
-              <CardContent className="pt-5">
-                <div className="text-base font-semibold">{c.title}</div>
-                <div className="mt-1 text-sm text-muted">{c.desc}</div>
+    <main className="mx-auto max-w-6xl px-6 py-12">
+      <div className="mb-10">
+        <h1 className="text-4xl font-semibold tracking-tight">Playbook</h1>
+        <p className="mt-3 text-white/70">
+          Systems-level thinking across asset classes. Not advice — frameworks.
+        </p>
+      </div>
+
+      <div className="grid gap-5 md:grid-cols-2">
+        {playbookIndex.map((a) => (
+          <Link key={a.slug} href={`/playbook/${a.slug}`} className="block">
+            <Card className="h-full transition hover:border-white/20">
+              <CardContent className="p-6">
+                <div className="text-xs uppercase tracking-wider text-white/50">
+                  {a.category}
+                </div>
+                <div className="mt-2 text-lg font-semibold">{a.title}</div>
+                <div className="mt-2 text-white/70">{a.description}</div>
               </CardContent>
             </Card>
           </Link>
         ))}
       </div>
-
-      <div className="rounded-2xl border hairline bg-white/5 p-5">
-        <div className="text-sm font-semibold">How to use this site</div>
-        <ol className="mt-2 list-decimal pl-5 text-sm text-white/80 space-y-1">
-          <li>Read an asset class page (start with Equity or Gold).</li>
-          <li>Use the Toolkit calculators for fast sanity checks.</li>
-          <li>Upgrade to Pro for regime-aware tools & backtests.</li>
-        </ol>
-      </div>
-    </PlaybookShell>
+    </main>
   );
 }

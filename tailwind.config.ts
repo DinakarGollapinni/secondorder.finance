@@ -1,18 +1,16 @@
 import type { Config } from "tailwindcss";
+import typography from "@tailwindcss/typography";
 
 const config: Config = {
-  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
+  content: [
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./content/**/*.{md,mdx}",
+  ],
   theme: {
-    extend: {
-      fontFamily: {
-        sans: ["ui-sans-serif", "system-ui", "Inter", "Segoe UI", "Roboto", "Arial", "sans-serif"],
-        mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
-      },
-      boxShadow: {
-        soft: "0 10px 30px rgba(0,0,0,0.35)",
-      },
-    },
+    extend: {},
   },
-  plugins: [],
+  plugins: [typography],
 };
+
 export default config;
