@@ -7,8 +7,11 @@ export default function Pro() {
     <div className="space-y-6">
       <header className="space-y-2">
         <h1 className="text-3xl font-semibold tracking-tight">Pro</h1>
-        <p className="text-muted max-w-prose">
-          Advanced tools that differentiate SecondOrder. This page is intentionally ready for Stripe + Auth gating.
+        <p className="text-white/90 text-lg max-w-prose">
+          Advanced decision systems for investors who want structure, memory, and repeatability across market cycles.
+        </p>
+        <p className="text-muted/80 text-sm max-w-prose">
+          Pro extends SecondOrder beyond calculators — into persistent, regime-aware investment systems designed to enforce discipline over time.
         </p>
       </header>
 
@@ -17,39 +20,41 @@ export default function Pro() {
           <CardHeader className="flex items-center justify-between">
             <div>
               <div className="text-sm font-medium text-white/90">Signal + Ladder</div>
-              <div className="text-xs text-muted">Backtests, order checklists</div>
+              <div className="text-xs text-muted">Regime-aware allocation systems</div>
             </div>
             <Badge>Pro</Badge>
           </CardHeader>
-          <CardContent className="text-sm text-white/80">
-            Connects to your notebook strategy. Generates stage-based actions and review checklists.
+          <CardContent className="text-sm text-white/80 space-y-2">
+            <p>Translate market conditions into staged actions — when to add, pause, rebalance, or hold.</p>
+            <p>Designed to reduce emotional decision-making during drawdowns and euphoric peaks.</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex items-center justify-between">
             <div>
-              <div className="text-sm font-medium text-white/90">Saved portfolios</div>
-              <div className="text-xs text-muted">Persistence + presets</div>
+              <div className="text-sm font-medium text-white/90">Saved Portfolios</div>
+              <div className="text-xs text-muted">Memory for your investment system</div>
             </div>
             <Badge>Pro</Badge>
           </CardHeader>
           <CardContent className="text-sm text-white/80">
-            Save allocations, risk preferences, cash buffer rules, and calculator presets.
+            Persist allocations, risk preferences, cash buffers, and calculator presets — so decisions stay consistent over time, not reactive to headlines.
           </CardContent>
         </Card>
       </div>
 
       <Card>
         <CardHeader>
-          <div className="text-sm font-medium text-white/90">Ready-to-monetize architecture</div>
-          <div className="text-xs text-muted">Next: Auth + Stripe</div>
+          <div className="text-sm font-medium text-white/90">Why Pro exists</div>
         </CardHeader>
-        <CardContent className="text-sm text-white/80 space-y-2">
-          <p>In v2, we’ll add Clerk (or Supabase) auth + Stripe subscriptions and gate Pro routes.</p>
-          <div className="flex gap-3">
-            <Link href="/about" className="btn btn-ghost">About</Link>
+        <CardContent className="text-sm text-white/80 space-y-4">
+          <p>Most investing mistakes happen when people forget their own rules.</p>
+          <p>Pro adds persistence, structure, and system memory — so decisions remain consistent across stress, volatility, and regime shifts.</p>
+          <p className="text-muted/90">Pro features will roll out gradually, with early access for users who want to help shape SecondOrder’s direction.</p>
+          <div className="flex gap-3 pt-2">
             <Link href="/toolkit" className="btn btn-primary">Try Free Toolkit</Link>
+            <Link href="/about" className="btn btn-ghost">Learn about Pro</Link>
           </div>
         </CardContent>
       </Card>

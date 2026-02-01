@@ -1,4 +1,5 @@
 import "./globals.css";
+import Link from "next/link";
 import type { Metadata } from "next";
 import { SiteNav } from "@/components/site-nav";
 
@@ -18,7 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div className="hairline border-t pt-8 text-sm text-muted flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <span className="font-medium text-white/90">SecondOrder</span>{" "}
-                <span className="text-muted">— calm systems for long-term investors.</span>
+                <span className="text-muted">— decision systems for long-horizon investors.</span>
               </div>
               <div className="text-muted">
                 Contact:{" "}
@@ -26,6 +27,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   hello@secondorder.finance
                 </a>
               </div>
+            </div>
+            <div className="mt-8 text-xs text-muted/40 max-w-xl">
+              SecondOrder provides decision-support frameworks and tools — not personalized financial advice. All information is for general informational purposes only.{" "}
+              <Link href="/legal" className="underline hover:text-muted/60">Legal</Link>
             </div>
           </footer>
         </div>

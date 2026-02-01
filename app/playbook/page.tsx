@@ -4,10 +4,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { AssetAccent } from "@/components/asset/AssetAccent";
 
 const categoryColors: Record<string, string> = {
-  Gold: "hsl(43 95% 58%)",
-  Crypto: "hsl(190 95% 55%)",
-  Equity: "hsl(210 90% 60%)",
-  REITs: "hsl(270 85% 65%)",
+  Gold: "hsl(45 100% 65%)",
+  Crypto: "hsl(180 100% 68%)",
+  Equity: "hsl(210 100% 68%)",
+  REITs: "hsl(270 95% 72%)",
 };
 
 const ORDER = ["Equity", "Gold", "Crypto", "REITs"];
