@@ -1,25 +1,38 @@
 import Link from "next/link";
-import { PLAYBOOK_ITEMS } from "@/content/playbook/_meta";
 import type { TocItem } from "@/lib/toc";
+import type { ArticleMeta } from "@/lib/playbook";
+
+const PLAYBOOK_CATEGORIES = ["metals", "equity", "crypto", "reits"] as const;
 
 export default function PlaybookShell({
   title,
   summary,
   currentSlug,
+  allArticles,
   toc,
   children,
 }: {
   title: string;
   summary?: string;
   currentSlug: string;
+  allArticles: ArticleMeta[];
   toc: TocItem[];
   children: React.ReactNode;
 }) {
-  const currentIndex = PLAYBOOK_ITEMS.findIndex((x) => x.slug === currentSlug);
-  const prev = currentIndex > 0 ? PLAYBOOK_ITEMS[currentIndex - 1] : null;
+  const currentItem = allArticles.find((x) => x.slug === currentSlug);
+  const currentCategory = currentItem?.asset;
+
+  // Filter items for the sidebar list (current asset only)
+  const filteredItems = currentCategory
+    ? allArticles.filter((item) => item.asset === currentCategory)
+    : allArticles;
+
+  // Next/Prev within the same category
+  const categoryIndex = filteredItems.findIndex((x) => x.slug === currentSlug);
+  const prev = categoryIndex > 0 ? filteredItems[categoryIndex - 1] : null;
   const next =
-    currentIndex >= 0 && currentIndex < PLAYBOOK_ITEMS.length - 1
-      ? PLAYBOOK_ITEMS[currentIndex + 1]
+    categoryIndex >= 0 && categoryIndex < filteredItems.length - 1
+      ? filteredItems[categoryIndex + 1]
       : null;
 
   return (
@@ -28,16 +41,41 @@ export default function PlaybookShell({
         {/* Left nav */}
         <aside className="hidden lg:block">
           <div className="sticky top-24 space-y-6">
-            <div className="text-xs uppercase tracking-wider text-white/50">
-              Playbook
+            <div className="space-y-3">
+              <div className="text-xs uppercase tracking-wider text-white/50">
+                Playbook
+              </div>
+
+              {/* Asset Switcher */}
+              <div className="flex flex-wrap gap-1 rounded-xl bg-white/5 p-1">
+                {PLAYBOOK_CATEGORIES.map((cat) => {
+                  const firstOfCat = allArticles.find((i) => i.asset === cat);
+                  const active = cat === currentCategory;
+                  return (
+                    <Link
+                      key={cat}
+                      href={firstOfCat ? `/playbook/${firstOfCat.asset}/${firstOfCat.slug}` : "#"}
+                      className={[
+                        "flex-1 rounded-lg px-2 py-1.5 text-center text-[10px] font-bold uppercase tracking-wider transition",
+                        active
+                          ? "bg-white/10 text-white shadow-sm"
+                          : "text-white/40 hover:text-white/60",
+                      ].join(" ")}
+                    >
+                      {cat}
+                    </Link>
+                  );
+                })}
+              </div>
             </div>
+
             <nav className="space-y-1">
-              {PLAYBOOK_ITEMS.map((item) => {
+              {filteredItems.map((item) => {
                 const active = item.slug === currentSlug;
                 return (
                   <Link
                     key={item.slug}
-                    href={`/playbook/${item.slug}`}
+                    href={`/playbook/${item.asset}/${item.slug}`}
                     className={[
                       "block rounded-lg px-3 py-2 text-sm transition",
                       active
@@ -46,7 +84,7 @@ export default function PlaybookShell({
                     ].join(" ")}
                   >
                     <div className="font-medium">{item.title}</div>
-                    <div className="text-xs text-white/40">{item.category}</div>
+                    <div className="text-xs text-white/40">{item.asset}</div>
                   </Link>
                 );
               })}
@@ -61,6 +99,9 @@ export default function PlaybookShell({
             {summary ? (
               <p className="mt-3 max-w-2xl text-white/70">{summary}</p>
             ) : null}
+            <div className="mt-3 text-sm italic text-white/40">
+              This framework describes long-term portfolio behavior, not tactical trading.
+            </div>
           </header>
 
           <div className="prose prose-invert max-w-none">{children}</div>
@@ -68,7 +109,7 @@ export default function PlaybookShell({
           <div className="mt-12 flex items-center justify-between gap-6 border-t border-white/10 pt-8">
             {prev ? (
               <Link
-                href={`/playbook/${prev.slug}`}
+                href={`/playbook/${prev.asset}/${prev.slug}`}
                 className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/80 hover:bg-white/10"
               >
                 ← {prev.title}
@@ -78,7 +119,7 @@ export default function PlaybookShell({
             )}
             {next ? (
               <Link
-                href={`/playbook/${next.slug}`}
+                href={`/playbook/${next.asset}/${next.slug}`}
                 className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/80 hover:bg-white/10"
               >
                 {next.title} →

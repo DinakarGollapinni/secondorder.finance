@@ -1,6 +1,9 @@
 import "./globals.css";
+import Link from "next/link";
+import Script from "next/script";
 import type { Metadata } from "next";
 import { SiteNav } from "@/components/site-nav";
+import { GaPageView } from "@/components/ga-pageview";
 
 export const metadata: Metadata = {
   title: "SecondOrder — an operating system for long-term investors",
@@ -10,6 +13,22 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-NHEBM8VYNG"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-NHEBM8VYNG');
+          `}
+        </Script>
+      </head>
       <body>
         <div className="min-h-screen">
           <SiteNav />
@@ -18,7 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div className="hairline border-t pt-8 text-sm text-muted flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <span className="font-medium text-white/90">SecondOrder</span>{" "}
-                <span className="text-muted">— calm systems for long-term investors.</span>
+                <span className="text-muted">— decision systems for long-horizon investors.</span>
               </div>
               <div className="text-muted">
                 Contact:{" "}
@@ -27,8 +46,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </a>
               </div>
             </div>
+            <div className="mt-8 text-xs text-muted/40 max-w-xl">
+              SecondOrder provides decision-support frameworks and tools — not personalized financial advice. All information is for general informational purposes only.{" "}
+              <Link href="/legal" className="underline hover:text-muted/60">Legal</Link>
+            </div>
           </footer>
         </div>
+        <GaPageView gaId="G-NHEBM8VYNG" />
       </body>
     </html>
   );
