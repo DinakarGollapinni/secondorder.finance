@@ -1,7 +1,9 @@
 import "./globals.css";
 import Link from "next/link";
+import Script from "next/script";
 import type { Metadata } from "next";
 import { SiteNav } from "@/components/site-nav";
+import { GaPageView } from "@/components/ga-pageview";
 
 export const metadata: Metadata = {
   title: "SecondOrder — an operating system for long-term investors",
@@ -11,6 +13,22 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-NHEBM8VYNG"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-NHEBM8VYNG');
+          `}
+        </Script>
+      </head>
       <body>
         <div className="min-h-screen">
           <SiteNav />
@@ -34,6 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
           </footer>
         </div>
+        <GaPageView gaId="G-NHEBM8VYNG" />
       </body>
     </html>
   );

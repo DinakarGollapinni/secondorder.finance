@@ -45,8 +45,8 @@ export function SiteNav() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Link href="/signin" className="btn btn-ghost text-white/90">
-            Sign in
+          <Link href="/pro" className="btn btn-primary">
+            Early Access
           </Link>
         </div>
       </div>

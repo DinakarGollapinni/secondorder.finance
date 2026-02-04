@@ -10,10 +10,16 @@ interface MarketData {
 interface SignalResult {
     spyClose: number;
     spyDrawdown: number;
+    spyHigh: number;
+    spy200SMA: number;
     spyHs: boolean; // Above 200DMA?
     ratioClose: number;
     ratioDrawdown: number;
+    ratioHigh: number;
+    riskLevel: 'Neutral' | 'Elevated' | 'Extreme';
+    signalStatus: string; // e.g., "Uptrend intact, drawdown small"
     sparkline: { date: string; value: number }[];
+    // Keep reference policy for default display
     suggestedAction: string;
     suggestedActionDescription: string;
 }
@@ -119,26 +125,37 @@ export const getMarketSignal = cache(async (): Promise<SignalResult | null> => {
     // 4. Sparkline (last 6 months ~ 126 days)
     const sparkline = ratios.slice(-126).map(r => ({ date: r.date, value: r.value }));
 
-    // 5. Rules Engine
-    /*
-    If SPY drawdown < 8% and SPY above 200DMA → DCA normal
-    If SPY drawdown < 8% but SPY below 200DMA → DCA + build buffer
-    If SPY drawdown 8–15% → Deploy dip-bucket (small)
-    If SPY drawdown > 15% → Deploy dip-bucket (meaningful)
-    */
+    let riskLevel: 'Neutral' | 'Elevated' | 'Extreme' = 'Neutral';
+    let signalStatus = "Uptrend intact, drawdown small";
 
-    let action = "DCA normal";
-    let description = "Markets are uptrending. Keep regular contributions.";
     const spyDDPercent = Math.abs(spyDrawdown * 100);
 
     if (spyDDPercent < 8) {
         if (spyAbove200) {
-            action = "DCA normal";
-            description = "Uptrend intact. Keep automating.";
+            riskLevel = 'Neutral';
+            signalStatus = "Uptrend intact, drawdown small";
         } else {
-            action = "DCA + build buffer";
-            description = "Drawdown small, but trend broken. Be cautious.";
+            riskLevel = 'Elevated';
+            signalStatus = "Drawdown small, but trend broken";
         }
+    } else if (spyDDPercent >= 8 && spyDDPercent < 15) {
+        riskLevel = 'Elevated';
+        signalStatus = "Meaningful pullback in progress";
+    } else {
+        riskLevel = 'Extreme';
+        signalStatus = "Major drawdown, high fear";
+    }
+
+    // Default reference policy (Core Growth)
+    let action = "Maintain baseline DCA";
+    let description = "Markets are uptrending. Maintain existing cadence.";
+
+    if (riskLevel === 'Neutral') {
+        action = "Maintain baseline DCA";
+        description = "Uptrend intact. Maintain existing cadence.";
+    } else if (riskLevel === 'Elevated' && spyDDPercent < 8) {
+        action = "DCA + build buffer";
+        description = "Be cautious. Trend is weak despite small drawdown.";
     } else if (spyDDPercent >= 8 && spyDDPercent < 15) {
         action = "Deploy dip-bucket (small)";
         description = "Meaningful pullback. Deploy 20-30% of cash.";
@@ -147,8 +164,6 @@ export const getMarketSignal = cache(async (): Promise<SignalResult | null> => {
         description = "Major discount. Aggressive accumulation.";
     }
 
-    // "If purchasing-power drawdown is large while nominal is small → show a subtle note"
-    // e.g. Ratio DD > 15% but Spy DD < 5%
     if (Math.abs(ratioDrawdown * 100) > 15 && spyDDPercent < 10) {
         description += " (Note: Equities weak vs Gold)";
     }
@@ -156,9 +171,14 @@ export const getMarketSignal = cache(async (): Promise<SignalResult | null> => {
     return {
         spyClose: lastDate.spyClose,
         spyDrawdown,
+        spyHigh,
+        spy200SMA: spy200SMA || 0,
         spyHs: spyAbove200,
         ratioClose: lastRatio.value,
         ratioDrawdown,
+        ratioHigh,
+        riskLevel,
+        signalStatus,
         sparkline,
         suggestedAction: action,
         suggestedActionDescription: description

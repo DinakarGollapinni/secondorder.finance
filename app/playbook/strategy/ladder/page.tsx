@@ -1,4 +1,4 @@
-import { PlaybookShell } from "@/components/playbook-shell";
+import { PlaybookShell } from "@/components/ui/playbook-shell";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 

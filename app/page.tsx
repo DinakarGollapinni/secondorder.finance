@@ -120,7 +120,7 @@ export default function Home() {
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {[
           { title: "Equity", href: "/asset-classes/equity", desc: "Core growth engine, breadth.", accent: "hsl(210 100% 68%)", },
-          { title: "Gold", href: "/asset-classes/gold", desc: "Hedge, liquidity, regime shifts.", accent: "hsl(45 100% 65%)", },
+          { title: "Metals", href: "/asset-classes/metals", desc: "Hedge, liquidity, regime shifts.", accent: "hsl(45 100% 65%)", },
           { title: "Crypto", href: "/asset-classes/crypto", desc: "Volatility, sizing, cycles.", accent: "hsl(180 100% 68%)", },
           { title: "REITs", href: "/asset-classes/reits", desc: "Rates sensitivity, income.", accent: "hsl(270 95% 72%)", },
         ].map((c) => (
