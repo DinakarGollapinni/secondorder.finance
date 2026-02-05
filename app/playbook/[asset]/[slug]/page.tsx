@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import MDXRenderer from "@/components/mdx/MDXRenderer";
-import { serialize } from "next-mdx-remote/serialize";
 import PlaybookShell from "@/components/playbook/PlaybookShell";
 import { buildTocFromMdx } from "@/lib/toc";
 import { getArticleBySlug, getAllArticles } from "@/lib/playbook";
@@ -24,7 +23,6 @@ export default async function PlaybookArticle({
     if (!article) notFound();
 
     const { meta, content } = article;
-    const mdxSource = await serialize(content);
     const toc = buildTocFromMdx(content);
 
     return (
@@ -35,7 +33,7 @@ export default async function PlaybookArticle({
             allArticles={await getAllArticles()}
             toc={toc}
         >
-            <MDXRenderer mdxSource={mdxSource} />
+            <MDXRenderer source={content} />
         </PlaybookShell>
     );
 }

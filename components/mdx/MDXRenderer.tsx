@@ -1,7 +1,5 @@
-"use client";
-
 import React from "react";
-import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
+import { MDXRemote } from "next-mdx-remote/rsc";
 
 function slugify(s: string) {
   return s
@@ -25,9 +23,9 @@ const components = {
 };
 
 export default function MDXRenderer({
-  mdxSource,
+  source,
 }: {
-  mdxSource: MDXRemoteSerializeResult;
+  source: string;
 }) {
-  return <MDXRemote {...mdxSource} components={components} />;
+  return <MDXRemote source={source} components={components} />;
 }
