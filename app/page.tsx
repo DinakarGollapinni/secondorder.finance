@@ -18,7 +18,7 @@ function MiniChart() {
 export default function Home() {
   return (
     <div className="space-y-10">
-      <section className="grid gap-8 md:grid-cols-2 md:items-center">
+      <section className="space-y-6">
         <div className="space-y-6">
           <Badge>Calm systems • Long-term investing</Badge>
           <h1 className="text-4xl font-semibold tracking-tight md:text-5xl">
@@ -33,9 +33,78 @@ export default function Home() {
             <Link href="/toolkit" className="btn btn-ghost">Try the Toolkit</Link>
           </div>
         </div>
+      </section>
+
+      <div className="grid gap-10 md:grid-cols-2 items-start py-8">
+        <div className="space-y-12">
+          <section className="space-y-8">
+            <div className="space-y-2">
+              <h2 className="text-xs font-bold tracking-widest text-white/40 uppercase">Start Here</h2>
+              <div className="text-2xl font-semibold text-white">System-driven investing, explained.</div>
+            </div>
+
+            <ul className="space-y-4">
+              <li>
+                <Link href="/playbook/system-design/policy-engine" className="group flex items-center gap-3 text-muted hover:text-white transition-colors">
+                  <span className="h-1.5 w-1.5 rounded-full bg-white/20 group-hover:bg-white transition-colors" />
+                  <span>How the Policy Engine actually works</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/playbook/system-design/drawdown-vs-price" className="group flex items-center gap-3 text-muted hover:text-white transition-colors">
+                  <span className="h-1.5 w-1.5 rounded-full bg-white/20 group-hover:bg-white transition-colors" />
+                  <span>Why drawdowns matter more than prices</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/playbook/system-design/regimes-not-predictions" className="group flex items-center gap-3 text-muted hover:text-white transition-colors">
+                  <span className="h-1.5 w-1.5 rounded-full bg-white/20 group-hover:bg-white transition-colors" />
+                  <span>How to think in regimes, not predictions</span>
+                </Link>
+              </li>
+            </ul>
+
+            <Link href="/playbook" className="inline-flex items-center gap-2 text-sm font-medium text-white/80 hover:text-white transition-colors group">
+              Read the Playbook <span className="translate-x-0 group-hover:translate-x-1 transition-transform">→</span>
+            </Link>
+          </section>
+
+          <section className="space-y-8">
+            <div className="space-y-2">
+              <h2 className="text-xs font-bold tracking-widest text-white/40 uppercase">How the System Thinks</h2>
+            </div>
+
+            <ul className="space-y-4">
+              <li>
+                <Link href="/playbook/system-design/policy-engine#1-signals-vs-policies" className="group flex items-center gap-3 text-muted hover:text-white transition-colors">
+                  <span className="h-1.5 w-1.5 rounded-full bg-white/20 group-hover:bg-white transition-colors" />
+                  <span>Signals vs Policies — what the system observes vs decides</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/playbook/system-design/policy-engine#3-regimes" className="group flex items-center gap-3 text-muted hover:text-white transition-colors">
+                  <span className="h-1.5 w-1.5 rounded-full bg-white/20 group-hover:bg-white transition-colors" />
+                  <span>Regimes, not predictions — why markets are classified, not forecast</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/playbook/system-design/policy-engine#5-policy-constraints-guardrails" className="group flex items-center gap-3 text-muted hover:text-white transition-colors">
+                  <span className="h-1.5 w-1.5 rounded-full bg-white/20 group-hover:bg-white transition-colors" />
+                  <span>Baselines & guardrails — how portfolios avoid emotional drift</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/playbook/system-design/policy-engine#6-what-this-system-is-and-is-not" className="group flex items-center gap-3 text-muted hover:text-white transition-colors">
+                  <span className="h-1.5 w-1.5 rounded-full bg-white/20 group-hover:bg-white transition-colors" />
+                  <span>What this system is — and what it deliberately avoids</span>
+                </Link>
+              </li>
+            </ul>
+          </section>
+        </div>
 
         <EquityPurchasingPowerCard />
-      </section>
+      </div>
 
 
 
