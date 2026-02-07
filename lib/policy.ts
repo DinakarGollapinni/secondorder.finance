@@ -71,7 +71,7 @@ export function getPolicyOutput(signal: SignalData, baseline: Baseline): PolicyO
         return {
             regime: 'neutral-uptrend',
             action: "Maintain baseline allocation & DCA cadence",
-            because: `Drawdown is minimal (${dd.toFixed(1)}%) and major trend is upward.`
+            because: `SPY drawdown is minimal (${dd.toFixed(1)}%) and major trend is upward.`
         };
     }
 
@@ -81,14 +81,14 @@ export function getPolicyOutput(signal: SignalData, baseline: Baseline): PolicyO
             return {
                 regime: 'defensive-tilt',
                 action: "Defensive tilt: route new equity DCA toward Metals",
-                because: `${trend === 'downtrend' ? 'Trend broken' : 'Medium drawdown'}; prioritizing capital preservation.`
+                because: `${trend === 'downtrend' ? 'Trend broken' : 'Medium SPY drawdown'}; prioritizing capital preservation.`
             };
         }
         if (ddTier === 'large') {
             return {
                 regime: 'defensive-override',
                 action: "Defensive posture: pause new equity DCA; preserve liquidity",
-                because: `Major drawdown (${dd.toFixed(1)}%) triggered safety override.`
+                because: `Major SPY drawdown (${dd.toFixed(1)}%) triggered safety override.`
             };
         }
     }
@@ -106,7 +106,7 @@ export function getPolicyOutput(signal: SignalData, baseline: Baseline): PolicyO
         return {
             regime: 'pullback',
             action: "Deploy initial dip-bucket (20–30% of cash reserve)",
-            because: `Meaningful retreat (${dd.toFixed(1)}%) from highs; beginning staged entry.`
+            because: `Meaningful SPY retreat (${dd.toFixed(1)}%) from highs; beginning staged entry.`
         };
     }
 
@@ -114,7 +114,7 @@ export function getPolicyOutput(signal: SignalData, baseline: Baseline): PolicyO
         return {
             regime: 'drawdown',
             action: "Deploy primary dip-bucket (major tranche)",
-            because: `Major discount (${dd.toFixed(1)}%) from 12-mo high; aggressive accumulation.`
+            because: `Major SPY discount (${dd.toFixed(1)}%) from 12-mo high; aggressive accumulation.`
         };
     }
 

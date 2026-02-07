@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { AssetAccent } from "@/components/asset/AssetAccent";
 import { EquityPurchasingPowerCard } from "@/components/signals/EquityPurchasingPowerCard";
+import { CurrentSystemState } from "@/components/signals/CurrentSystemState";
 
 
 function MiniChart() {
@@ -101,6 +102,8 @@ export default function Home() {
               </li>
             </ul>
           </section>
+
+          <CurrentSystemState />
         </div>
 
         <EquityPurchasingPowerCard />
