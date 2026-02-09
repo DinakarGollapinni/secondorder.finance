@@ -19,6 +19,8 @@ export const ArticleMetaSchema = z.object({
     level: z.enum(["foundation", "intermediate", "advanced"]).default("foundation"),
     canonical: z.string().optional(),
     tags: z.array(z.string()).default([]),
+    upstream: z.object({ asset: z.string(), slug: z.string(), label: z.string().optional() }).optional(),
+    downstream: z.object({ asset: z.string(), slug: z.string(), label: z.string().optional() }).optional(),
     related: z.array(z.object({ asset: z.string(), slug: z.string() })).default([]),
     lens: z.string().optional(),
 });
