@@ -73,6 +73,7 @@ function Sparkline({ data }: { data: SparklineData[] }) {
 export function SignalsDashboard({ signal }: SignalsDashboardProps) {
     const [activeBaseline, setActiveBaseline] = useState<Baseline>(BASELINES[0]);
     const [showSettings, setShowSettings] = useState(false);
+    const [showWhatThisIs, setShowWhatThisIs] = useState(false);
 
     const policy = getPolicyOutput(signal, activeBaseline);
 
@@ -102,7 +103,7 @@ export function SignalsDashboard({ signal }: SignalsDashboardProps) {
 
             <CardContent className="space-y-6">
                 <div className="relative">
-                    <div className="space-y-4">
+                    <div className="grid gap-4 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)]">
                         {/* Observation Section */}
                         <div className="rounded-2xl border hairline bg-white/5 p-4">
                             <div className="flex justify-between items-start">
@@ -149,68 +150,90 @@ export function SignalsDashboard({ signal }: SignalsDashboardProps) {
                             </div>
                         </div>
 
-                        {/* System/Policy Details */}
-                        <div className="grid gap-4 md:grid-cols-2">
-                            {/* Regime Classification */}
-                            <div className="rounded-2xl border hairline bg-white/5 p-4 space-y-2">
-                                <div className="text-xs text-muted uppercase tracking-wider">System Regime Classification</div>
-                                <Badge className="text-[10px] h-5 bg-white/10 border-white/20">
-                                    {policy.regime.replace(/-/g, ' ')}
-                                </Badge>
-                                <div className="text-[10px] text-muted/80 leading-snug italic">
-                                    Regimes classify market conditions; they do not forecast outcomes.
-                                </div>
-                            </div>
-
-                            {/* Policy Guidance */}
-                            <div className="rounded-2xl border hairline bg-white/5 p-4 space-y-2">
-                                <div className="text-xs text-muted uppercase tracking-wider">Policy Guidance</div>
-                                <div className="text-sm text-white/80 leading-snug">
-                                    {policy.action}
-                                </div>
-                                <div className="text-[10px] text-muted/80 italic leading-snug">
-                                    {policy.because}
-                                </div>
-                            </div>
-
-                            {/* Baseline Template */}
-                            <div className="rounded-2xl border hairline bg-white/5 p-4 space-y-1">
-                                <div className="flex items-center justify-between gap-2 text-[10px] text-muted">
-                                    <div className="flex items-center gap-1.5">
-                                    <span>Baseline Template (Demo):</span>
-                                    <Badge className="h-4 px-1.5 text-[9px] font-mono border-white/10 bg-white/5">
-                                        {activeBaseline.weights}
+                        <div className="space-y-4">
+                            {/* System/Policy Details */}
+                            <div className="grid gap-4 md:grid-cols-2">
+                                {/* Regime Classification */}
+                                <div className="rounded-2xl border hairline bg-white/5 p-4 space-y-2">
+                                    <div className="text-xs text-muted uppercase tracking-wider">System Regime Classification</div>
+                                    <Badge className="text-[10px] h-5 bg-white/10 border-white/20">
+                                        {policy.regime.replace(/-/g, ' ')}
                                     </Badge>
-                                    <button onClick={() => setShowSettings(true)} className="hover:text-white transition-colors underline decoration-white/20 underline-offset-2">(change)</button>
+                                    <div className="text-[10px] text-muted/80 leading-snug italic">
+                                        Regimes classify market conditions; they do not forecast outcomes.
                                     </div>
+                                </div>
+
+                                {/* Policy Guidance */}
+                                <div className="rounded-2xl border hairline bg-white/5 p-4 space-y-2">
+                                    <div className="text-xs text-muted uppercase tracking-wider">Policy Guidance</div>
+                                    <div className="text-sm text-white/80 leading-snug">
+                                        {policy.action}
+                                    </div>
+                                    <div className="text-[10px] text-muted/80 italic leading-snug">
+                                        {policy.because}
+                                    </div>
+                                </div>
+
+                                {/* Baseline Template */}
+                                <div className="rounded-2xl border hairline bg-white/5 p-3 space-y-1">
+                                    <div className="flex items-center justify-between gap-2 text-[10px] text-muted">
+                                        <div className="flex items-center gap-1.5">
+                                            <span>Baseline Template (Demo):</span>
+                                            <Badge className="h-4 px-1.5 text-[9px] font-mono border-white/10 bg-white/5">
+                                                {activeBaseline.weights}
+                                            </Badge>
+                                            <button onClick={() => setShowSettings(true)} className="hover:text-white transition-colors underline decoration-white/20 underline-offset-2">(change)</button>
+                                        </div>
+                                        <button
+                                            onClick={() => setShowSettings(!showSettings)}
+                                            className="p-1 hover:bg-white/10 rounded-md transition-colors"
+                                            aria-label="Edit baseline template"
+                                        >
+                                            <svg className="h-4 w-4 text-muted hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div className="text-[9px] text-muted/70 leading-snug">
+                                        Used to simulate policy responses shown above.
+                                    </div>
+                                </div>
+
+                                {/* Guardrails */}
+                                {activeBaseline.guardrails && (
+                                    <div className="rounded-2xl border hairline bg-white/5 p-3 space-y-1">
+                                        <div className="text-[9px] text-muted/80 uppercase tracking-wider">Guardrails</div>
+                                        <div className="flex items-start gap-2 rounded-lg bg-white/5 p-2 text-[10px] text-muted/80 leading-relaxed">
+                                            <svg className="h-3 w-3 mt-0.5 flex-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                            </svg>
+                                            <span>{activeBaseline.guardrails}</span>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="rounded-2xl border hairline bg-white/5 p-3">
+                                <div className="flex items-center justify-between">
+                                    <div className="text-xs text-muted">What this is</div>
                                     <button
-                                        onClick={() => setShowSettings(!showSettings)}
-                                        className="p-1 hover:bg-white/10 rounded-md transition-colors"
-                                        aria-label="Edit baseline template"
+                                        type="button"
+                                        onClick={() => setShowWhatThisIs((v) => !v)}
+                                        aria-expanded={showWhatThisIs}
+                                        aria-label="Toggle what this is"
+                                        className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-white/10 text-[11px] text-white/50 transition hover:text-white hover:border-white/30"
                                     >
-                                        <svg className="h-4 w-4 text-muted hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        </svg>
+                                        ⓘ
                                     </button>
                                 </div>
-                                <div className="text-[9px] text-muted/70 leading-snug">
-                                    Used to simulate policy responses shown above.
-                                </div>
-                            </div>
-
-                            {/* Guardrails */}
-                            {activeBaseline.guardrails && (
-                                <div className="rounded-2xl border hairline bg-white/5 p-4 space-y-1">
-                                    <div className="text-[9px] text-muted/80 uppercase tracking-wider">Guardrails</div>
-                                    <div className="flex items-start gap-2 rounded-lg bg-white/5 p-2 text-[10px] text-muted/80 leading-relaxed">
-                                        <svg className="h-3 w-3 mt-0.5 flex-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                        </svg>
-                                        <span>{activeBaseline.guardrails}</span>
+                                {showWhatThisIs && (
+                                    <div className="mt-1 text-sm text-white/80 leading-relaxed">
+                                        Real purchasing power compares assets against hard money (gold) to isolate inflation and currency effects, rather than relying on nominal USD prices.
                                     </div>
-                                </div>
-                            )}
+                                )}
+                            </div>
                         </div>
                     </div>
 
@@ -268,12 +291,6 @@ export function SignalsDashboard({ signal }: SignalsDashboardProps) {
                     )}
                 </div>
 
-                <div className="rounded-2xl border hairline bg-white/5 p-4">
-                    <div className="text-xs text-muted">What this is</div>
-                    <div className="mt-1 text-sm text-white/80 leading-relaxed">
-                        Real purchasing power compares assets against hard money (gold) to isolate inflation and currency effects, rather than relying on nominal USD prices.
-                    </div>
-                </div>
             </CardContent>
         </Card>
     );

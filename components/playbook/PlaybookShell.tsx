@@ -21,6 +21,22 @@ export default function PlaybookShell({
 }) {
   const currentItem = allArticles.find((x) => x.slug === currentSlug);
   const currentCategory = currentItem?.asset;
+  const resolveLink = (link?: { asset: string; slug: string; label?: string }) => {
+    if (!link) return null;
+    const match = allArticles.find(
+      (item) => item.asset === link.asset && item.slug === link.slug
+    );
+    return {
+      href: `/playbook/${link.asset}/${link.slug}`,
+      label: link.label || match?.title || link.slug,
+    };
+  };
+
+  const upstream = resolveLink(currentItem?.upstream);
+  const downstream = resolveLink(currentItem?.downstream);
+  const related = (currentItem?.related || [])
+    .map((item) => resolveLink(item))
+    .filter(Boolean) as { href: string; label: string }[];
 
   // Filter items for the sidebar list (current asset only)
   const filteredItems = currentCategory
@@ -104,7 +120,48 @@ export default function PlaybookShell({
             </div>
           </header>
 
+          {(upstream || downstream) && (
+            <div className="mb-8 rounded-2xl border border-white/10 bg-white/5 p-4">
+              <div className="text-xs uppercase tracking-wider text-white/50">Context links</div>
+              <div className="mt-3 space-y-2 text-sm">
+                {upstream && (
+                  <Link
+                    href={upstream.href}
+                    className="block text-white/80 hover:text-white"
+                  >
+                    Upstream: {upstream.label}
+                  </Link>
+                )}
+                {downstream && (
+                  <Link
+                    href={downstream.href}
+                    className="block text-white/80 hover:text-white"
+                  >
+                    Downstream: {downstream.label}
+                  </Link>
+                )}
+              </div>
+            </div>
+          )}
+
           <div className="prose prose-invert max-w-none">{children}</div>
+
+          {related.length > 0 && (
+            <div className="mt-10 rounded-2xl border border-white/10 bg-white/5 p-4">
+              <div className="text-xs uppercase tracking-wider text-white/50">Related reading</div>
+              <div className="mt-3 space-y-2 text-sm">
+                {related.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="block text-white/80 hover:text-white"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className="mt-12 flex items-center justify-between gap-6 border-t border-white/10 pt-8">
             {prev ? (

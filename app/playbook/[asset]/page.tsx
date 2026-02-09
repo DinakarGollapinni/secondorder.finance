@@ -38,6 +38,35 @@ export default async function AssetPlaybookPage({
 
     const assetName = params.asset.charAt(0).toUpperCase() + params.asset.slice(1);
 
+    const lensGroup = (lens?: string) => {
+        const key = (lens || "").toLowerCase();
+        if (["valuations", "valuation", "risk"].includes(key)) return "valuation-risk";
+        if (["regime", "stress"].includes(key)) return "regimes-stress";
+        return "foundations";
+    };
+
+    const tagGroup = (tags: string[]) => {
+        const set = new Set(tags.map((t) => t.toLowerCase()));
+        if (set.has("regimes") || set.has("drawdowns") || set.has("stress")) return "regimes-stress";
+        if (set.has("valuation") || set.has("valuations") || set.has("risk")) return "valuation-risk";
+        return "foundations";
+    };
+
+    const getGroup = (article: typeof articles[number]) => {
+        if (article.lens) return lensGroup(article.lens);
+        if (article.tags && article.tags.length > 0) return tagGroup(article.tags);
+        return "foundations";
+    };
+
+    const groups = [
+        { id: "foundations", label: "Foundations" },
+        { id: "valuation-risk", label: "Valuation & Risk" },
+        { id: "regimes-stress", label: "Regimes & Stress" },
+    ].map((group) => ({
+        ...group,
+        items: articles.filter((a) => getGroup(a) === group.id),
+    })).filter((group) => group.items.length > 0);
+
     return (
         <main className="mx-auto max-w-6xl px-6 py-12">
             <div className="mb-10">
@@ -53,35 +82,51 @@ export default async function AssetPlaybookPage({
                 </p>
             </div>
 
-            <div className="grid gap-5 md:grid-cols-2">
-                {articles.map((a) => (
-                    <Link key={a.slug} href={`/playbook/${a.asset}/${a.slug}`} className="block group">
-                        <Card className="relative h-full overflow-hidden transition hover:border-white/20 hover:bg-white/5">
-                            {/* Accent overlay */}
-                            <div className="pointer-events-none absolute inset-0">
-                                <AssetAccent color={categoryColors[a.asset] || "#888888"} />
-                            </div>
+            <div className="space-y-10">
+                {groups.map((group, index) => (
+                    <section
+                        key={group.id}
+                        className={[
+                            "space-y-4",
+                            index === 0 ? "" : "border-t border-white/10 pt-6",
+                        ].join(" ")}
+                    >
+                        <div className="text-xs font-bold tracking-widest text-white/40 uppercase">
+                            {group.label}
+                        </div>
+                        <div className="grid gap-5 md:grid-cols-2">
+                            {group.items.map((a) => (
+                                <Link key={a.slug} href={`/playbook/${a.asset}/${a.slug}`} className="block group">
+                                    <Card className="relative h-full overflow-hidden transition hover:border-white/20 hover:bg-white/5">
+                                        {/* Accent overlay */}
+                                        <div className="pointer-events-none absolute inset-0">
+                                            <AssetAccent color={categoryColors[a.asset] || "#888888"} />
+                                        </div>
 
-                            <CardContent className="relative p-6">
-                                <div className="text-xs uppercase tracking-wider text-white/50">
-                                    {a.asset}
-                                </div>
-                                <div className="mt-2 text-lg font-semibold">{a.title}</div>
-                                <div className="mt-2 text-white/70">{a.description}</div>
-                                <div className="mt-4 flex items-center gap-3 text-[10px] font-medium text-white/40 uppercase tracking-widest">
-                                    <span>{a.level}</span>
-                                    {a.lens && (
-                                        <>
-                                            <span>•</span>
-                                            <span className="text-primary">{a.lens}</span>
-                                        </>
-                                    )}
-                                    <span>•</span>
-                                    <span>{a.readingTime} min read</span>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </Link>
+                                        {/* Content */}
+                                        <CardContent className="relative p-6">
+                                            <div className="text-xs uppercase tracking-wider text-white/50">
+                                                {a.asset}
+                                            </div>
+                                            <div className="mt-2 text-lg font-semibold">{a.title}</div>
+                                            <div className="mt-2 text-white/70">{a.description}</div>
+                                            <div className="mt-4 flex items-center gap-3 text-[10px] font-medium text-white/40 uppercase tracking-widest">
+                                                <span>{a.level}</span>
+                                                {a.lens && (
+                                                    <>
+                                                        <span>•</span>
+                                                        <span className="text-primary">{a.lens}</span>
+                                                    </>
+                                                )}
+                                                <span>•</span>
+                                                <span>{a.readingTime} min read</span>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                </Link>
+                            ))}
+                        </div>
+                    </section>
                 ))}
             </div>
         </main>
