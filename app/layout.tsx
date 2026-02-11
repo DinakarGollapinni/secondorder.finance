@@ -11,23 +11,29 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const gaEnabled = process.env.NEXT_PUBLIC_GA_DISABLE !== "true";
+
   return (
     <html lang="en">
       <head>
-        <Script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-NHEBM8VYNG"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
+        {gaEnabled && (
+          <>
+            <Script
+              async
+              src="https://www.googletagmanager.com/gtag/js?id=G-NHEBM8VYNG"
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
 
-            gtag('config', 'G-NHEBM8VYNG');
-          `}
-        </Script>
+                gtag('config', 'G-NHEBM8VYNG');
+              `}
+            </Script>
+          </>
+        )}
       </head>
       <body>
         <div className="min-h-screen">
@@ -52,7 +58,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
           </footer>
         </div>
-        <GaPageView gaId="G-NHEBM8VYNG" />
+        {gaEnabled && <GaPageView gaId="G-NHEBM8VYNG" />}
       </body>
     </html>
   );
